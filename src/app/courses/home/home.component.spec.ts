@@ -8,7 +8,7 @@ import { CoursesService } from '../services/courses.service';
 import { setupCourses } from '../common/setup-test-data';
 import { By } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
-import {click} from '../common/test-utils';
+import { click } from '../common/test-utils';
 
 describe('HomeComponent', () => {
   let fixture: ComponentFixture<HomeComponent>;
@@ -84,6 +84,8 @@ describe('HomeComponent', () => {
     const cardTitles = el.queryAll(By.css('.mat-card-title'));
 
     expect(cardTitles.length).toBeGreaterThan(0, 'Could not find card titles');
-    expect(cardTitles[0].nativeElement.textContent).toContain('Angular Security Course');
+    expect(cardTitles[0].nativeElement.textContent).toContain(
+      'Angular Security Course',
+    );
   });
 });
