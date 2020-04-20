@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, fakeAsync, flush, TestBed} from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 
 import { HomeComponent } from './home.component';
@@ -7,7 +7,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CoursesService } from '../services/courses.service';
 import { setupCourses } from '../common/setup-test-data';
 import { By } from '@angular/platform-browser';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { click } from '../common/test-utils';
 
 describe('HomeComponent', () => {
@@ -72,7 +72,7 @@ describe('HomeComponent', () => {
     expect(tabs.length).toBe(2, 'Unexpected number of tabs found');
   });
 
-  it('should display advanced courses when tab clicked', () => {
+  it('should display advanced courses when tab clicked', fakeAsync(() => {
     coursesService.findAllCourses.and.returnValue(of(setupCourses()));
     fixture.detectChanges();
 
@@ -83,9 +83,14 @@ describe('HomeComponent', () => {
 
     const cardTitles = el.queryAll(By.css('.mat-card-title'));
 
-    expect(cardTitles.length).toBeGreaterThan(0, 'Could not find card titles');
+    flush();
+
+    expect(cardTitles.length).toBeGreaterThan(
+      0,
+      'Could not find card titles',
+    );
     expect(cardTitles[0].nativeElement.textContent).toContain(
       'Angular Security Course',
     );
-  });
+  }));
 });
