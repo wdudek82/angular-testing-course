@@ -72,7 +72,7 @@ xdescribe('Async Testing Examples', () => {
     expect(counter).toBe(26);
   }));
 
-  fit('Asynchronous test example - Observables', fakeAsync(() => {
+  it('Asynchronous test example - Observables', fakeAsync(() => {
     let test = false;
 
     console.log('Creating Observable.');

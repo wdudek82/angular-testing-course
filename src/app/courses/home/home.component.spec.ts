@@ -1,4 +1,12 @@
-import {async, ComponentFixture, fakeAsync, flush, TestBed} from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  flushMicrotasks,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 
 import { HomeComponent } from './home.component';
@@ -80,15 +88,13 @@ describe('HomeComponent', () => {
 
     click(tabs[1]);
     fixture.detectChanges();
-
-    const cardTitles = el.queryAll(By.css('.mat-card-title'));
-
     flush();
 
-    expect(cardTitles.length).toBeGreaterThan(
-      0,
-      'Could not find card titles',
+    const cardTitles = el.queryAll(
+      By.css('.mat-tab-body-active .mat-card-title'),
     );
+
+    expect(cardTitles.length).toBeGreaterThan(0, 'Could not find card titles');
     expect(cardTitles[0].nativeElement.textContent).toContain(
       'Angular Security Course',
     );
