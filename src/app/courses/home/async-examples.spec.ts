@@ -30,7 +30,7 @@ fdescribe('Async Testing Examples', () => {
     expect(test).toBeTruthy();
   }));
 
-  fit('Asynchronous test example - plain Promises', fakeAsync(() => {
+  it('Asynchronous test example - plain Promises', fakeAsync(() => {
     let test = false;
 
     console.log('Creating promise.');
@@ -48,5 +48,26 @@ fdescribe('Async Testing Examples', () => {
 
     console.log('Running test assertion');
     expect(test).toBeTruthy();
+  }));
+
+  fit('Asynchronous test example - Promises + setTimeout()', fakeAsync(() => {
+    let counter = 3;
+
+    Promise.resolve()
+      .then(() => {
+        counter += 10;
+
+        setTimeout(() => {
+          counter *= 2;
+        }, 1000);
+      });
+
+    expect(counter).toBe(3);
+
+    flushMicrotasks();
+    expect(counter).toBe(13);
+
+    flush();
+    expect(counter).toBe(26);
   }));
 });
