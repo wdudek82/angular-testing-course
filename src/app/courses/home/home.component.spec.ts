@@ -99,4 +99,28 @@ describe('HomeComponent', () => {
       'Angular Security Course',
     );
   }));
+
+  it('should display advanced courses when tab clicked - async', async(() => {
+    coursesService.findAllCourses.and.returnValue(of(setupCourses()));
+    fixture.detectChanges();
+
+    const tabs = el.queryAll(By.css('.mat-tab-label'));
+
+    click(tabs[1]);
+    fixture.detectChanges();
+    fixture.whenStable()
+      .then(() => {
+        console.log('Called whenStable');
+
+        const cardTitles = el.queryAll(
+          By.css('.mat-tab-body-active .mat-card-title'),
+        );
+
+        expect(cardTitles.length).toBeGreaterThan(0, 'Could not find card titles');
+        expect(cardTitles[0].nativeElement.textContent).toContain(
+          'Angular Security Course',
+        );
+      });
+
+  }));
 });
